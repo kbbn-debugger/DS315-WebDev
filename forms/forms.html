@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Do You Love Cats? Survey</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="form-container">
+    <h1>Do You Love Cats? 🐱</h1>
+    <form id="catForm">
+      <div class="question">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" required />
+        <div class="error">Please enter a valid email address.</div>
+      </div>
+
+      <div class="question">
+        <label for="birthdate">Birthdate *</label>
+        <input type="date" id="birthdate" required />
+        <div class="error">Please select your birthdate.</div>
+      </div>
+
+      <div class="question">
+        <label>Do you love cats? *</label>
+        <div class="choices">
+          <label><input type="radio" name="loveCats" value="Yes" /> Yes 😺</label>
+          <label><input type="radio" name="loveCats" value="No" /> No 🙀</label>
+          <label><input type="radio" name="loveCats" value="Maybe" /> Maybe 😼</label>
+        </div>
+        <div class="error">Please select an answer.</div>
+      </div>
+
+      <div class="question">
+        <label for="reason">Why do you love (or not love) cats? *</label>
+        <textarea id="reason" rows="4" placeholder="Write your reason here..."></textarea>
+        <div class="error">This field is required.</div>
+      </div>
+
+      <div class="question">
+        <label for="favorite">What’s your favorite cat breed? *</label>
+        <input type="text" id="favorite" placeholder="e.g., Persian, Siamese, Maine Coon" />
+        <div class="error">Please enter a cat breed.</div>
+      </div>
+
+      <div class="question">
+        <label for="own">Do you currently own a cat? *</label>
+        <select id="own">
+          <option value="">-- Select an answer --</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+          <option value="Used to">I used to</option>
+        </select>
+        <div class="error">Please select an answer.</div>
+      </div>
+
+      <button type="submit">Submit</button>
+      <div class="success">Form submitted successfully!</div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("catForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      let valid = true;
+      const showError = (input, message) => {
+        const errorDiv = input.parentElement.querySelector(".error");
+        errorDiv.style.display = "block";
+        errorDiv.textContent = message;
+        valid = false;
+      };
+      const hideError = (input) => {
+        const errorDiv = input.parentElement.querySelector(".error");
+        errorDiv.style.display = "none";
+      };
+
+      const email = document.getElementById("email");
+      if (!email.value.trim() || !email.value.includes("@")) {
+        showError(email, "Please enter a valid email address.");
+      } else hideError(email);
+
+      const birthdate = document.getElementById("birthdate");
+      if (!birthdate.value.trim()) showError(birthdate, "Please select your birthdate.");
+      else hideError(birthdate);
+
+      const loveCats = document.querySelector('input[name="loveCats"]:checked');
+      const loveCatsContainer = document.querySelector('input[name="loveCats"]').closest(".question");
+      if (!loveCats) {
+        loveCatsContainer.querySelector(".error").style.display = "block";
+        valid = false;
+      } else loveCatsContainer.querySelector(".error").style.display = "none";
+
+      const reason = document.getElementById("reason");
+      if (!reason.value.trim()) showError(reason, "This field is required.");
+      else hideError(reason);
+
+      const favorite = document.getElementById("favorite");
+      if (!favorite.value.trim()) showError(favorite, "Please enter a cat breed.");
+      else hideError(favorite);
+
+      const own = document.getElementById("own");
+      if (!own.value.trim()) showError(own, "Please select an answer.");
+      else hideError(own);
+
+      if (valid) {
+        document.querySelector(".success").style.display = "block";
+        alert("Form submitted successfully!");
+        this.reset();
+      } else {
+        document.querySelector(".success").style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>
